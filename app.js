@@ -7,10 +7,10 @@
  */
 
 if (process.env.NEW_RELIC_LICENSE_KEY) {
-  console.log('New Relic in use.');
-  require('newrelic');
+    console.log('New Relic in use...');
+    require('newrelic');
 } else {
-  console.log('New Relic not in use.');
+    console.log('New Relic not in use.');
 }
 
 var SwaggerExpress = require('swagger-express-mw');
@@ -41,7 +41,7 @@ app.use('/', routes);
 module.exports = app; // for testing
 
 var config = {
-  appRoot: __dirname, // required config
+    appRoot: __dirname, // required config
 };
 
 // error handlers
@@ -49,36 +49,36 @@ var config = {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err,
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err,
+        });
     });
-  });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {},
-  });
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {},
+    });
 });
 
 SwaggerExpress.create(config, function(err, swaggerExpress) {
-  if (err) {
-    throw err;
-  }
+    if (err) {
+        throw err;
+    }
 
-  // add swagger-ui
-  app.use(new SwaggerUi(swaggerExpress.runner.swagger));
+    // add swagger-ui
+    app.use(new SwaggerUi(swaggerExpress.runner.swagger));
 
-  // install middleware
-  swaggerExpress.register(app);
+    // install middleware
+    swaggerExpress.register(app);
 
-  var port = process.env.PORT || 3000;
-  app.listen(port);
+    var port = process.env.PORT || 3000;
+    app.listen(port);
 });
